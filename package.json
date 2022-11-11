@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "testing socket io",
   "scripts": {
-    "dev": "node index.js",
+    "dev": "nodemon index.js",
     "format:fix": "prettier --config .prettierrc . --write"
   },
   "dependencies": {
@@ -11,6 +11,7 @@
     "socket.io": "^4.5.3"
   },
   "devDependencies": {
+    "nodemon": "^2.0.20",
     "prettier": "^2.7.1"
   }
 }
