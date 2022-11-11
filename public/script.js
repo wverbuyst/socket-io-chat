@@ -1,7 +1,7 @@
 var socket = io()
 
 var info = document.getElementById('info')
-var message = document.getElementById('messages')
+var messages = document.getElementById('messages')
 var form = document.getElementById('form')
 var input = document.getElementById('input')
 
@@ -21,6 +21,11 @@ socket.on('chat message', function (msg) {
 })
 
 socket.on('user connected', function (msg) {
-  info.textContent = msg
-  setTimeout(() => (info.textContent = ''), 2000)
+  notie.alert({
+    type: 'info',
+    text: msg,
+    stay: false,
+    time: 2,
+    position: 'top',
+  })
 })
