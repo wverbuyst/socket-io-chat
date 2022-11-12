@@ -6,6 +6,7 @@
 }
 
 body {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   font-family: 'Raleway', sans-serif;
@@ -13,9 +14,7 @@ body {
   color: #fff;
   background-color: var(--color-main);
   font-size: 1.5rem;
-}
-
-#chat-room {
+  width: 100vw;
   text-align: center;
 }
 
@@ -28,8 +27,6 @@ body {
   right: 0;
   display: flex;
   height: 5rem;
-  box-sizing: border-box;
-  /* backdrop-filter: blur(10px); */
 }
 
 #input {
@@ -64,7 +61,20 @@ body {
   margin: 1rem;
   padding: 0.5rem 1rem;
   background: var(--color-dark);
-  border-radius: .5rem;
+  border-radius: 0.5rem;
+  text-align: left;
+}
+
+.user-date-time {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.date-time {
+  text-align: left;
+  color: #ddd;
+  font-size: 1rem;
 }
 
 .name {
@@ -73,13 +83,11 @@ body {
   font-size: 1rem;
 }
 
-#messages > div:nth-child(odd) {
-  text-align: left;
+.messages--left  {
   align-self: flex-start;
 } 
 
-#messages > div:nth-child(even) {
-  text-align: right;
+.messages--right {
   align-self: flex-end;
 }
 

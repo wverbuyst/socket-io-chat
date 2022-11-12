@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>chat-example</title>
+    <title>socket-io chat</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,12 +17,11 @@
   </head>
   <script src="/socket.io/socket.io.js"></script>
   <body>
-    <div>
-      <h1 id="chat-room">chat</h1>
-    </div>
-    <section id="chat">
+    <h1 id="chat-room"></h1>
+
+    <div id="chat">
       <div id="messages"></div>
-    </section>
+    </div>
     <form id="form" action="">
       <input id="input" autocomplete="off" />
     </form>

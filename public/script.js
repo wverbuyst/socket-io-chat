@@ -7,11 +7,29 @@ const chatRoom = document.getElementById('chat-room')
 let userName = ''
 let roomName = ''
 
+function padTo2Digits(num) {
+  return num.toString().padStart(2, '0')
+}
+
+function getDateAndTime() {
+  const now = new Date()
+  const date = [
+    padTo2Digits(now.getDate()),
+    padTo2Digits(now.getMonth() + 1),
+    now.getFullYear(),
+  ].join('/')
+  const time = [
+    padTo2Digits(now.getHours()),
+    padTo2Digits(now.getMinutes()),
+  ].join(':')
+  return `${date} ${time}`
+}
+
 function connectWithSocket() {
   const socket = io()
   const name = userName
   const room = roomName
-  chatRoom.textContent = room
+  chatRoom.textContent = `${name.toLocaleLowerCase()}@${room.toLocaleLowerCase()}`
 
   socket.emit('join', { name, room }, (error) => {
     if (error) {
@@ -28,14 +46,31 @@ function connectWithSocket() {
   })
 
   socket.on('returnMessage', function ({ user, text }) {
-    var item = document.createElement('div')
     const nameItem = document.createElement('div')
     nameItem.classList.add('name')
     nameItem.textContent = user
+
+    const dateTime = document.createElement('div')
+    dateTime.classList.add('date-time')
+    dateTime.textContent = getDateAndTime()
+
     const messageItem = document.createElement('div')
     messageItem.textContent = text
-    item.appendChild(nameItem)
+
+    const userWithDateTime = document.createElement('div')
+    userWithDateTime.classList.add('user-date-time')
+    userWithDateTime.appendChild(nameItem)
+    userWithDateTime.appendChild(dateTime)
+
+    const item = document.createElement('div')
+    item.appendChild(userWithDateTime)
     item.appendChild(messageItem)
+
+    if (user === userName) {
+      item.classList.add('messages--left')
+    } else {
+      item.classList.add('messages--right')
+    }
 
     messages.appendChild(item)
     window.scrollTo(0, document.body.scrollHeight)
