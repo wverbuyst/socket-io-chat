@@ -2,6 +2,12 @@
 <html>
   <head>
     <title>chat-example</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       type="text/css"
@@ -11,9 +17,14 @@
   </head>
   <script src="/socket.io/socket.io.js"></script>
   <body>
-    <ul id="messages"></ul>
+    <div>
+      <h1 id="chat-room">chat</h1>
+    </div>
+    <section id="chat">
+      <div id="messages"></div>
+    </section>
     <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
+      <input id="input" autocomplete="off" />
     </form>
     <script src="https://unpkg.com/notie"></script>
   </body>

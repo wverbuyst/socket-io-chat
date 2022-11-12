@@ -2,13 +2,16 @@ const info = document.getElementById('info')
 const messages = document.getElementById('messages')
 const form = document.getElementById('form')
 const input = document.getElementById('input')
+const chatRoom = document.getElementById('chat-room')
 
 let userName = ''
+let roomName = ''
 
 function connectWithSocket() {
   const socket = io()
   const name = userName
-  const room = 'TEST_ROOM'
+  const room = roomName
+  chatRoom.textContent = room
 
   socket.emit('join', { name, room }, (error) => {
     if (error) {
@@ -25,8 +28,15 @@ function connectWithSocket() {
   })
 
   socket.on('returnMessage', function ({ user, text }) {
-    var item = document.createElement('li')
-    item.textContent = `${user}: ${text}`
+    var item = document.createElement('div')
+    const nameItem = document.createElement('div')
+    nameItem.classList.add('name')
+    nameItem.textContent = user
+    const messageItem = document.createElement('div')
+    messageItem.textContent = text
+    item.appendChild(nameItem)
+    item.appendChild(messageItem)
+
     messages.appendChild(item)
     window.scrollTo(0, document.body.scrollHeight)
   })
@@ -47,11 +57,21 @@ function connectWithSocket() {
 }
 
 notie.input({
-  text: 'Please enter your name',
+  text: 'Enter your user name',
   submitText: 'Submit',
-  submitCallback: function (value) {
+  submitCallback: (value) => {
     userName = value
-    connectWithSocket()
+    notie.input({
+      text: 'Which room do you want to join?',
+      submitText: 'Submit',
+      submitCallback: (value) => {
+        roomName = value
+        connectWithSocket()
+      },
+      cancelText: 'Cancel',
+      cancelCallback: console.log('cancelled'),
+      position: 'top',
+    })
   },
   cancelText: 'Cancel',
   cancelCallback: console.log('cancelled'),
