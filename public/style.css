@@ -32,7 +32,7 @@ body {
 }
 
 #form > button {
-  background: #333;
+  background-color: rgb(5, 126, 167);
   border: none;
   padding: 0 1rem;
   margin: 0.25rem;
@@ -53,4 +53,8 @@ body {
 
 #messages > li:nth-child(odd) {
   background: #efefef;
+}
+
+.notie-background-info {
+  background-color: chartreuse;
 }

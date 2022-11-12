@@ -5,20 +5,57 @@ const { Server } = require('socket.io')
 const app = express()
 const server = http.createServer(app)
 const io = new Server(server)
+const { addUser, removeUser, getUser, getUsersInRoom } = require('./users')
 
 app.use(express.static(path.join(__dirname, 'public')))
 
 io.on('connection', (socket) => {
-  console.log('a user connected')
-  io.emit('user connected', 'user joined')
+  socket.on('join', ({ name, room }, callback) => {
+    const { error, user } = addUser({ id: socket.id, name, room })
 
-  socket.on('disconnect', () => {
-    console.log('a user disconnected')
+    if (error) return callback(error)
+
+    // Emit will send message to the user
+    // who had joined
+    socket.emit('message', {
+      user: 'admin',
+      text: `${user.name},
+          welcome to room ${user.room}.`,
+    })
+
+    // Broadcast will send message to everyone
+    // in the room except the joined user
+    socket.broadcast
+      .to(user.room)
+      .emit('message', { user: 'admin', text: `${user.name}, has joined` })
+
+    socket.join(user.room)
+
+    io.to(user.room).emit('roomData', {
+      room: user.room,
+      users: getUsersInRoom(user.room),
+    })
   })
 
-  socket.on('chat message', (msg) => {
-    console.log('message: ' + msg)
-    io.emit('chat message', msg)
+  socket.on('sendMessage', (message) => {
+    const user = getUser(socket.id)
+    io.to(user.room).emit('returnMessage', { user: user.name, text: message })
+
+    io.to(user.room).emit('roomData', {
+      room: user.room,
+      users: getUsersInRoom(user.room),
+    })
+  })
+
+  socket.on('disconnect', () => {
+    const user = removeUser(socket.id)
+
+    if (user) {
+      io.to(user.room).emit('message', {
+        user: 'admin',
+        text: `${user.name} had left`,
+      })
+    }
   })
 })
 
