@@ -92,5 +92,13 @@ body {
 }
 
 .notie-background-info {
-  background-color: var(--color-medium);
+  background-color: var(--color-dark);
+}
+
+.notie-input-field {
+  background-color: var(--color-light);
+}
+
+.notie-background-overlay {
+  background-color: var(--color-main);
 }

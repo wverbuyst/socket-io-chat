@@ -96,13 +96,24 @@ notie.input({
   submitText: 'Submit',
   submitCallback: (value) => {
     userName = value
-    notie.input({
+    notie.select({
       text: 'Which room do you want to join?',
-      submitText: 'Submit',
-      submitCallback: (value) => {
-        roomName = value
-        connectWithSocket()
-      },
+      choices: [
+        {
+          text: 'hell',
+          handler: function () {
+            roomName = 'hell'
+            connectWithSocket()
+          },
+        },
+        {
+          text: 'heaven',
+          handler: function () {
+            roomName = 'heaven'
+            connectWithSocket()
+          },
+        },
+      ],
       cancelText: 'Cancel',
       cancelCallback: console.log('cancelled'),
       position: 'top',
