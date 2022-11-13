@@ -18,6 +18,11 @@ body {
   text-align: center;
 }
 
+#users-list {
+  color: var(--color-medium);
+  font-size: 1rem;
+}
+
 #form {
   background: var(--color-dark);
   padding: 0.5rem;

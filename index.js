@@ -25,12 +25,10 @@ io.on('connection', (socket) => {
 
     // Broadcast will send message to everyone
     // in the room except the joined user
-    socket.broadcast
-      .to(user.room)
-      .emit('message', {
-        user: 'admin',
-        text: `${user.name}, has joined ${user.room}`,
-      })
+    socket.broadcast.to(user.room).emit('message', {
+      user: 'admin',
+      text: `${user.name}, has joined ${user.room}`,
+    })
 
     socket.join(user.room)
 
@@ -57,6 +55,10 @@ io.on('connection', (socket) => {
       io.to(user.room).emit('message', {
         user: 'admin',
         text: `${user.name} has left`,
+        roomData: {
+          room: user.room,
+          users: getUsersInRoom(user.room),
+        },
       })
     }
   })

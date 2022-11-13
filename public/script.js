@@ -3,6 +3,7 @@ const messages = document.getElementById('messages')
 const form = document.getElementById('form')
 const input = document.getElementById('input')
 const chatRoom = document.getElementById('chat-room')
+const userList = document.getElementById('users-list')
 
 let userName = ''
 let roomName = ''
@@ -67,9 +68,9 @@ function connectWithSocket() {
     item.appendChild(messageItem)
 
     if (user === userName) {
-      item.classList.add('messages--left')
-    } else {
       item.classList.add('messages--right')
+    } else {
+      item.classList.add('messages--left')
     }
 
     messages.appendChild(item)
@@ -77,7 +78,19 @@ function connectWithSocket() {
   })
 
   socket.on('roomData', (data) => {
-    console.log('data', data)
+    userList.innerHTML = ''
+
+    const { users } = data
+
+    if (users.length) {
+      ;[...users]
+        .filter((user) => user.name !== userName)
+        .forEach((user) => {
+          const userElement = document.createElement('div')
+          userElement.textContent = user.name
+          userList.appendChild(userElement)
+        })
+    }
   })
 
   socket.on('message', function (msg) {
@@ -88,6 +101,22 @@ function connectWithSocket() {
       time: 2,
       position: 'top',
     })
+
+    if (msg.roomData) {
+      userList.innerHTML = ''
+
+      const { users } = msg.roomData
+
+      if (users.length) {
+        ;[...users]
+          .filter((user) => user.name !== userName)
+          .forEach((user) => {
+            const userElement = document.createElement('div')
+            userElement.textContent = user.name
+            userList.appendChild(userElement)
+          })
+      }
+    }
   })
 }
 
